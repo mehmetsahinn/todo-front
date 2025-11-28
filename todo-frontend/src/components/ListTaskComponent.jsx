@@ -24,7 +24,7 @@ function ListTaskComponent() {
 
   return (
     <div className='container mb-5 min-vh-100'>
-        <h2 className='text-center'>List of Tasks</h2>
+        <h2 className='text-center py-2'>List of Tasks</h2>
         <button className='btn btn-primary mb-2' onClick={addNewTask}>Add Task</button>
 
             <table className='table table-striped table-bordered'>

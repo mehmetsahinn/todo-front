@@ -6,7 +6,7 @@ function HeaderComponent() {
 
         <header>
             <nav className='navbar navbar-dark bg-dark'>
-                <a className="navbar-brand mx-auto" href="#">To-Do App</a>
+                <a className="navbar-brand mx-auto " href="#">To-Do App</a>
             </nav>
         </header>
         
