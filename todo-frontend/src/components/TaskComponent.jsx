@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { createTask } from '../services/TaskService';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { createTask, getTask, updateTask } from '../services/TaskService';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function TaskComponent() {
 
@@ -8,31 +8,61 @@ function TaskComponent() {
   const [status, setStatus] = useState(false)
   const [description, setDescription] = useState('')
 
+  const {id}=useParams();
+
+
   const navigator = useNavigate();
 
-  function saveTask(e){
+  useEffect(()=>{
+    if(id){
+      getTask(id).then((response)=>{
+        setTaskName(response.data.taskName);
+        setStatus(response.data.status);
+        setDescription(response.data.description);
+      }).catch(error=>{
+        console.error(error);
+      })
+    }
+  }, [id])
+
+  function saveOrUpdateTask(e){
     e.preventDefault();
     if (!taskName.trim()) return alert("Task Name is required!");
-
     const task = {taskName, status, description}
     console.log(task)
-
-    createTask(task).then((response)=>{
-    console.log(response.data);
-    navigator('/')
-  })
+    if(id){
+      updateTask(id, task).then((response)=>{
+        console.log(response.data);
+        navigator('/tasks')
+      })
+    }else{
+      createTask(task).then((response)=>{
+        console.log(response.data);
+        navigator('/')
+      })  
+    }
+    
   }
+  function pageTitle(){
+        if(id){
+          return <h2 className='text-center bg-dark text-light py-2 rounded-top'
+          >Update Task</h2>
+        }else{
+          return <h2 className='text-center bg-dark text-light py-2 rounded-top'
+          >Add Task</h2>
+        }
+    }
 
   
-
 
   return (
     <div className='container '>
       <br></br>
       <div className='row '>
         <div className='card col-md-6 offset-md-3 offset-md-3 px-0 '>
-          <h2 className='text-center bg-dark text-light py-2 rounded-top'
-          >Add Task</h2>
+          {
+            pageTitle()
+          }
           <div className='card-body'>
             <form >
               <div className='form-group mb-2'>
@@ -72,7 +102,7 @@ function TaskComponent() {
                 >
                 </input>
               </div>
-              <button className='btn btn-success' onClick={saveTask}>Submit </button>
+              <button className='btn btn-success' onClick={saveOrUpdateTask}>Submit </button>
             </form>
           </div>
         </div>

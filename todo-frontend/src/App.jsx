@@ -20,8 +20,9 @@ function App() {
         <div className='min-vh-100'>
         <Routes>
           <Route path='/' element={<ListTaskComponent/>}></Route>
-          <Route path='/try' element={<ListTaskComponent/>}></Route>
+          <Route path='/tasks' element={<ListTaskComponent/>}></Route>
           <Route path='/add-task' element={<TaskComponent/>}></Route>
+           <Route path='/edit-task/:id' element={<TaskComponent/>}></Route>
         </Routes>
         </div>
         <FooterComponent/>
